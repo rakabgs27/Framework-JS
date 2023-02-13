@@ -1,24 +1,4 @@
-const linkHome = document.getElementById("link-home");
-const linkAbout = document.getElementById("link-about");
 const root = document.getElementById("root");
-
-//Fungsi On Click untuk Link 
-linkHome.onclick = function(event) {
-    event.preventDefault();
-    const homeScreen = HomeScreen();
-    root.innerHTML = "";
-    root.append(homeScreen);
-    history.pushState(null,"",event.target.href)
-};
-
-//Fungsi On Click untuk Link 
-linkAbout.onclick = function(event) {
-    event.preventDefault();
-    const aboutScreen = AboutScreen();
-    root.innerHTML = "";
-    root.append(aboutScreen);
-    history.pushState(null,"",event.target.href)
-};
 
 //Fungsi Percabangan untuk melakukan pengisian manual pada URL
 if (location.hash === "#about") {
@@ -33,6 +13,8 @@ if (location.hash === "#about") {
 
 //Fungsi untuk Home Screen
 function HomeScreen() {
+    const navbar = Navbar();
+
     const textPreview = document.createElement("p");
    
     const input = document.createElement("input");
@@ -42,6 +24,7 @@ function HomeScreen() {
     input.placeholder = "Enter your name";
    
     const div = document.createElement("div");
+    div.append(navbar);
     div.append(input);
     div.append(textPreview);
 
@@ -50,7 +33,55 @@ function HomeScreen() {
 
 //Fungsi untuk About Screen
 function AboutScreen() {
+    const linkHome = document.createElement("a");
+    linkHome.href = "#home";
+    linkHome.textContent = "Kembali ke Home";
+    //Fungsi On Click untuk Link Home
+    linkHome.onclick = function(event) {
+        event.preventDefault();
+        const homeScreen = HomeScreen();
+        root.innerHTML = "";
+        root.append(homeScreen);
+        history.pushState(null,"",event.target.href)
+    };
     const text = document.createElement("p");
     text.textContent = "Welcome to About Page";
-    return text;
+    
+    const div = document.createElement("div");
+    div.append(linkHome);
+    div.append(text);
+
+    return div;
+}
+
+function Navbar() {
+    const linkHome = document.createElement("a");
+    linkHome.href = "#home";
+    linkHome.textContent = "Home";
+    //Fungsi On Click untuk Link Home
+    linkHome.onclick = function(event) {
+        event.preventDefault();
+        const homeScreen = HomeScreen();
+        root.innerHTML = "";
+        root.append(homeScreen);
+        history.pushState(null,"",event.target.href)
+    };
+    
+    const linkAbout = document.createElement("a");
+    linkAbout.href = "#about";
+    linkAbout.textContent = "About";
+    //Fungsi On Click untuk Link About
+    linkAbout.onclick = function(event) {
+        event.preventDefault();
+        const aboutScreen = AboutScreen();
+        root.innerHTML = "";
+        root.append(aboutScreen);
+        history.pushState(null,"",event.target.href)
+    };
+
+    const div = document.createElement("div");
+    div.append(linkHome);
+    div.append(linkAbout);
+
+    return div;
 }
