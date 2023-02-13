@@ -33,17 +33,12 @@ function HomeScreen() {
 
 //Fungsi untuk About Screen
 function AboutScreen() {
-    const linkHome = document.createElement("a");
-    linkHome.href = "#home";
-    linkHome.textContent = "Kembali ke Home";
-    //Fungsi On Click untuk Link Home
-    linkHome.onclick = function(event) {
-        event.preventDefault();
-        const homeScreen = HomeScreen();
-        root.innerHTML = "";
-        root.append(homeScreen);
-        history.pushState(null,"",event.target.href)
-    };
+    const linkHome = Link({ 
+        href: "#home", 
+        label: "Kembali ke Home", 
+        Component: HomeScreen}
+    );
+    
     const text = document.createElement("p");
     text.textContent = "Welcome to About Page";
     
@@ -54,30 +49,35 @@ function AboutScreen() {
     return div;
 }
 
+function Link(props) {
+    const link = document.createElement("a");
+    link.href = props.href;
+    link.textContent = props.label;
+    //Fungsi On Click untuk Link
+    link.onclick = function(event) {
+        event.preventDefault();
+        const component = props.Component();
+        root.innerHTML = "";
+        root.append(component);
+        history.pushState(null,"",event.target.href)
+    };
+
+    return link;
+}
+
+
 function Navbar() {
-    const linkHome = document.createElement("a");
-    linkHome.href = "#home";
-    linkHome.textContent = "Home";
-    //Fungsi On Click untuk Link Home
-    linkHome.onclick = function(event) {
-        event.preventDefault();
-        const homeScreen = HomeScreen();
-        root.innerHTML = "";
-        root.append(homeScreen);
-        history.pushState(null,"",event.target.href)
-    };
-    
-    const linkAbout = document.createElement("a");
-    linkAbout.href = "#about";
-    linkAbout.textContent = "About";
-    //Fungsi On Click untuk Link About
-    linkAbout.onclick = function(event) {
-        event.preventDefault();
-        const aboutScreen = AboutScreen();
-        root.innerHTML = "";
-        root.append(aboutScreen);
-        history.pushState(null,"",event.target.href)
-    };
+    const linkHome = Link({ 
+        href: "#home", 
+        label: "Home", 
+        Component: HomeScreen}
+    );
+
+    const linkAbout = Link({ 
+        href: "#about", 
+        label: "About", 
+        Component: AboutScreen}
+    );
 
     const div = document.createElement("div");
     div.append(linkHome);
